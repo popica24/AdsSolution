@@ -10,11 +10,17 @@ using System.Windows.Forms;
 
 namespace AdsSolution
 {
-    public partial class Form1 : Form
+    public partial class ParentForm : Form
     {
-        public Form1()
+        public ParentForm()
         {
             InitializeComponent();
+        }
+
+        private void NewAdBtn_Click(object sender, EventArgs e)
+        {
+            NewAdForm AdForm = new NewAdForm();
+            AdForm.Show();
         }
     }
 }
