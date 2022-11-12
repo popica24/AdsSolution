@@ -30,13 +30,12 @@
         {
             this.NewAdBtn = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.AdContainer = new System.Windows.Forms.FlowLayoutPanel();
-            this.flowLayoutPanel1.SuspendLayout();
+            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.SuspendLayout();
             // 
             // NewAdBtn
             // 
-            this.NewAdBtn.Location = new System.Drawing.Point(688, 12);
+            this.NewAdBtn.Location = new System.Drawing.Point(262, 454);
             this.NewAdBtn.Name = "NewAdBtn";
             this.NewAdBtn.Size = new System.Drawing.Size(100, 23);
             this.NewAdBtn.TabIndex = 0;
@@ -46,29 +45,28 @@
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.Controls.Add(this.AdContainer);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 12);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(670, 426);
             this.flowLayoutPanel1.TabIndex = 1;
             // 
-            // AdContainer
+            // flowLayoutPanel2
             // 
-            this.AdContainer.Location = new System.Drawing.Point(3, 3);
-            this.AdContainer.Name = "AdContainer";
-            this.AdContainer.Size = new System.Drawing.Size(200, 100);
-            this.AdContainer.TabIndex = 0;
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(688, 12);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(268, 426);
+            this.flowLayoutPanel2.TabIndex = 2;
             // 
             // ParentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.flowLayoutPanel1);
+            this.ClientSize = new System.Drawing.Size(968, 489);
             this.Controls.Add(this.NewAdBtn);
+            this.Controls.Add(this.flowLayoutPanel2);
+            this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "ParentForm";
             this.Text = "OLX";
-            this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -77,7 +75,7 @@
 
         private System.Windows.Forms.Button NewAdBtn;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.FlowLayoutPanel AdContainer;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
     }
 }
 

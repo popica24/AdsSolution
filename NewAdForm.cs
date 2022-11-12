@@ -12,6 +12,7 @@ namespace AdsSolution
 {
     public partial class NewAdForm : Form
     {
+       
         public NewAdForm()
         {
             InitializeComponent();
@@ -32,52 +33,42 @@ namespace AdsSolution
             Picture.Height = 144;
             return Picture;
         }
-        private void pictureBox1_Click(object sender, EventArgs e)// DE REPARAT
+        private void pictureBox1_Click(object sender, EventArgs e)
         {
             ChosePhoto.ShowDialog();
             string FilePath = ChosePhoto.FileName;
 
             for (int rowIndex = 0; rowIndex < ImageGrid.RowCount; rowIndex++)
             {
-                for(int colIndex = 0; colIndex < ImageGrid.ColumnCount; colIndex++)
+                for (int colIndex = 0; colIndex < ImageGrid.ColumnCount; colIndex++)
                 {
                     Control c = ImageGrid.GetControlFromPosition(colIndex,rowIndex);
-                    if (c == null)
+                    if (c == null || c.Name=="AddPhoto")
                     {
                         ImageGrid.Controls.Add(CreatePictureBox(FilePath, GetPictureBoxName()), colIndex, rowIndex);
-                        //      ImageGrid.Controls.Add(AddPhoto, colIndex+1, rowIndex);
-                      
+                        ImageGrid.Controls.Add(AddPhoto, colIndex+1, rowIndex);
                         goto End;
                     }
                 }
-            End: break;
-            } 
-            
-         
-           
-         
-      
-
+            }
+        End: return;
         }
 
         private void Post_Click(object sender, EventArgs e)
         {
-            List<Image> _Photos = new List<Image>();
-            foreach(Control c in ImageGrid.Controls)
+            var _temp = new List<Image>();
+            foreach (PictureBox p in ImageGrid.Controls)
             {
-                var x = c as PictureBox;
-                _Photos.Add(x.Image);
+                if (p.Name == "AddPhoto") continue;
+                _temp.Add(p.Image);
             }
-            var contact = String.Empty;
-            if (EmailCheckbox.Checked) contact = "email";//TEMP
-            else contact = "phone";//TEMP
-            Ad ad = new Ad() {
+           /* Ad ad = new Ad()//DE ADAUGAT CONTACT
+            {
                 Title = TitleBox.Text,
                 Description = DescBox.Text,
-                Photos = _Photos,
-                Price = 2
-            };
-           
+                Photos = _temp
+            };*/
         }
     }
+
 }

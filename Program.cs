@@ -16,7 +16,7 @@ namespace AdsSolution
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ParentForm());
+            Application.Run(new LoginForm());
         }
     }
 }

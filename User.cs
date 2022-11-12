@@ -15,6 +15,14 @@ namespace AdsSolution
         public string Password { get;private set; }
         public string Email { get; set; }
         public string Phone { get; set; }
+        public Guid OwnerKey { get; private set; } = new Guid();
+        public User()
+        {
+            Username = String.Empty;
+            Password = String.Empty;
+            Email = String.Empty;
+            Phone = String.Empty;
+        }
         public User(string _Username,string _Password, string _Email,string _Phone)
         {
             Username = _Username;
@@ -23,9 +31,10 @@ namespace AdsSolution
             Phone = _Phone;
         }
         
-        public bool PhoneIsValid(string Phone)//DE IMPLEMENTAT
+        public bool PhoneIsValid(string Phone)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(Phone)) return false;
+            return Regex.IsMatch(Phone, @"^\d+$");
         }
         public bool EmailIsValid(string email)
         {
@@ -33,7 +42,7 @@ namespace AdsSolution
             if (string.IsNullOrEmpty(email)) return false;
             if (Regex.Matches(email, Regex.Escape(".")).Count == 1 &&
                 Regex.Matches(email, Regex.Escape("@")).Count == 1 &&
-                Regex.IsMatch(email, EmailFormat))//Step 1
+                Regex.IsMatch(email, EmailFormat))
             {
                 var tail = email.Substring(email.IndexOf("@"));
                 return (tail == "@gmail.com" || tail == "@yahoo.com" || tail == "hotmail.com" || tail == "outlook.com");//Pasul 2 (De Implementat JSON) !!!!!!!!
