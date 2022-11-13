@@ -11,11 +11,13 @@ namespace AdsSolution
 {
     public class User
     {
+        public bool IsAdmin { get; private set; } = false;
         public string Username { get; set; }
-        public string Password { get;private set; }
+        public string Password { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public Guid OwnerKey { get; private set; } = new Guid();
+        public Guid OwnerKey { get; private set; } = Guid.NewGuid();
+     
         public User()
         {
             Username = String.Empty;
@@ -83,11 +85,12 @@ namespace AdsSolution
         }
         public override int GetHashCode()
         {
-            int hash = 7;
-            hash = (hash * 3) + Username.GetHashCode();
-            hash = (hash * 4) + Password.GetHashCode();
-            hash = (hash * 5) + Email.GetHashCode();
-            return hash;
+            unchecked
+            {
+                int result = (Email != null ? Email.GetHashCode() : 0);
+                result = (result * 397) ^ (Password != null ? Password.GetHashCode() : 0);
+                return result;
+            }
         }
     }
 }

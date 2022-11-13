@@ -4,58 +4,64 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AdsSolution
 {
-    public class UserDatabaseJSON 
+    public class UserDatabaseJSON
     {
-        private string filePath { get; set; }
+        private string filePath
+        {
+            get;
+            set;
+        }
         public UserDatabaseJSON()
         {
-            if (!DatabaseExists()) DatabaseCreate();
             filePath = ConfigurationManager.AppSettings["FilePath"];
+            if (!DatabaseExists()) DatabaseCreate();
+
         }
         private bool DatabaseExists()
         {
-           
-            return Directory.Exists(filePath);
+
+            return File.Exists(Path.Combine(filePath, "Users.json"));
         }
         private void DatabaseCreate()
         {
             if (!Directory.Exists(filePath))
-            {
                 Directory.CreateDirectory(filePath);
-            }
+
+            if (!File.Exists(Path.Combine(filePath, "Users.json")))
+                File.Create(Path.Combine(filePath, "Users.json"));
         }
-        public User LoadUser(User U)
+        public User LoadUser(int LoginToken)
         {
             var Text = File.ReadAllText(Path.Combine(filePath, "Users.json"));
-            var UserList = JsonConvert.DeserializeObject<List<User>>(Text);
-            foreach(User _U in UserList)
-            {
-                if (_U.Equals(U)) return _U;
-         
-            }
-            return null;
+            var UserList = JsonConvert.DeserializeObject<Dictionary<int,User>>(Text);
+            return UserList[LoginToken];
         }
-        public List<User> LoadUsers()
-        {
-            var Text = File.ReadAllText(Path.Combine(filePath, "Users.json"));
-            return JsonConvert.DeserializeObject<List<User>>(Text);
-        }
+    
         public void CreateNewUser(User U)
         {
-            var _newlist = LoadUsers();
-            _newlist.Add(U);
-            File.WriteAllText(Path.Combine(filePath, "Users.json"), JsonConvert.SerializeObject(_newlist));
+            var UserList = new Dictionary<int, User>();
+            var Text = File.ReadAllText(Path.Combine(filePath, "Users.json"));
+            if (!string.IsNullOrEmpty(Text))
+            {
+                UserList = JsonConvert.DeserializeObject<Dictionary<int, User>>(Text);
+            }
+            UserList.Add(U.GetHashCode(), U);
+            File.WriteAllText(Path.Combine(filePath, "Users.json"), JsonConvert.SerializeObject(UserList));
         }
-        public void LoginUser(Guid UserID)
+        public int GetLoginToken(string email, string password)
         {
-            throw new NotImplementedException();
+
+            var Text = File.ReadAllText(Path.Combine(filePath, "Users.json"));
+            var UserList = JsonConvert.DeserializeObject<Dictionary<int, User>>(Text);
+            return UserList.FirstOrDefault(x => (String.Equals(x.Value.Email, email) && String.Equals(x.Value.Password, password))).Key;
+            
         }
+        
     }
 }

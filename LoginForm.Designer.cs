@@ -35,7 +35,7 @@
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.EmailStatus = new System.Windows.Forms.Label();
             this.PasswordStatus = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.Login = new System.Windows.Forms.Button();
             this.ForgotPassword = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
@@ -104,14 +104,15 @@
             this.PasswordStatus.Size = new System.Drawing.Size(0, 13);
             this.PasswordStatus.TabIndex = 8;
             // 
-            // button1
+            // Login
             // 
-            this.button1.Location = new System.Drawing.Point(73, 195);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(201, 28);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "Login";
-            this.button1.UseVisualStyleBackColor = true;
+            this.Login.Location = new System.Drawing.Point(73, 195);
+            this.Login.Name = "Login";
+            this.Login.Size = new System.Drawing.Size(201, 28);
+            this.Login.TabIndex = 9;
+            this.Login.Text = "Login";
+            this.Login.UseVisualStyleBackColor = true;
+            this.Login.Click += new System.EventHandler(this.Login_Click);
             // 
             // ForgotPassword
             // 
@@ -129,7 +130,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(340, 334);
             this.Controls.Add(this.ForgotPassword);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.Login);
             this.Controls.Add(this.PasswordStatus);
             this.Controls.Add(this.EmailStatus);
             this.Controls.Add(this.linkLabel1);
@@ -153,7 +154,7 @@
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.Label EmailStatus;
         private System.Windows.Forms.Label PasswordStatus;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button Login;
         private System.Windows.Forms.LinkLabel ForgotPassword;
     }
 }

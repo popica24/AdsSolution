@@ -36,8 +36,9 @@
             this.NameBox = new System.Windows.Forms.TextBox();
             this.PhoneBox = new System.Windows.Forms.TextBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.button1 = new System.Windows.Forms.Button();
+            this.SignUp = new System.Windows.Forms.Button();
             this.PhoneStatus = new System.Windows.Forms.Label();
+            this.NameStatus = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -76,7 +77,7 @@
             this.PasswordBox.Margin = new System.Windows.Forms.Padding(6);
             this.PasswordBox.Name = "PasswordBox";
             this.PasswordBox.Size = new System.Drawing.Size(282, 22);
-            this.PasswordBox.TabIndex = 10;
+            this.PasswordBox.TabIndex = 3;
             this.PasswordBox.Text = "Password";
             this.PasswordBox.TextChanged += new System.EventHandler(this.PasswordBox_TextChanged);
             // 
@@ -87,7 +88,7 @@
             this.EmailBox.Margin = new System.Windows.Forms.Padding(6);
             this.EmailBox.Name = "EmailBox";
             this.EmailBox.Size = new System.Drawing.Size(282, 22);
-            this.EmailBox.TabIndex = 9;
+            this.EmailBox.TabIndex = 2;
             this.EmailBox.Text = "Email";
             this.EmailBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
@@ -98,8 +99,9 @@
             this.NameBox.Margin = new System.Windows.Forms.Padding(6);
             this.NameBox.Name = "NameBox";
             this.NameBox.Size = new System.Drawing.Size(282, 22);
-            this.NameBox.TabIndex = 13;
+            this.NameBox.TabIndex = 1;
             this.NameBox.Text = "Name";
+            this.NameBox.TextChanged += new System.EventHandler(this.NameBox_TextChanged);
             // 
             // PhoneBox
             // 
@@ -108,18 +110,19 @@
             this.PhoneBox.Margin = new System.Windows.Forms.Padding(6);
             this.PhoneBox.Name = "PhoneBox";
             this.PhoneBox.Size = new System.Drawing.Size(282, 22);
-            this.PhoneBox.TabIndex = 14;
+            this.PhoneBox.TabIndex = 4;
             this.PhoneBox.Text = "Phone ";
             this.PhoneBox.TextChanged += new System.EventHandler(this.PhoneBox_TextChanged);
             // 
-            // button1
+            // SignUp
             // 
-            this.button1.Location = new System.Drawing.Point(99, 285);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(201, 28);
-            this.button1.TabIndex = 15;
-            this.button1.Text = "Sign up";
-            this.button1.UseVisualStyleBackColor = true;
+            this.SignUp.Location = new System.Drawing.Point(99, 285);
+            this.SignUp.Name = "SignUp";
+            this.SignUp.Size = new System.Drawing.Size(201, 28);
+            this.SignUp.TabIndex = 15;
+            this.SignUp.Text = "Sign up";
+            this.SignUp.UseVisualStyleBackColor = true;
+            this.SignUp.Click += new System.EventHandler(this.button1_Click);
             // 
             // PhoneStatus
             // 
@@ -129,13 +132,23 @@
             this.PhoneStatus.Size = new System.Drawing.Size(0, 13);
             this.PhoneStatus.TabIndex = 16;
             // 
+            // NameStatus
+            // 
+            this.NameStatus.AutoSize = true;
+            this.NameStatus.Location = new System.Drawing.Point(351, 106);
+            this.NameStatus.Margin = new System.Windows.Forms.Padding(6);
+            this.NameStatus.Name = "NameStatus";
+            this.NameStatus.Size = new System.Drawing.Size(0, 13);
+            this.NameStatus.TabIndex = 17;
+            // 
             // SignUpForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(432, 450);
+            this.Controls.Add(this.NameStatus);
             this.Controls.Add(this.PhoneStatus);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.SignUp);
             this.Controls.Add(this.PhoneBox);
             this.Controls.Add(this.NameBox);
             this.Controls.Add(this.PasswordStatus);
@@ -160,7 +173,8 @@
         private System.Windows.Forms.TextBox NameBox;
         private System.Windows.Forms.TextBox PhoneBox;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button SignUp;
         private System.Windows.Forms.Label PhoneStatus;
+        private System.Windows.Forms.Label NameStatus;
     }
 }

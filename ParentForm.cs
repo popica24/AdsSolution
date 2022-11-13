@@ -12,9 +12,14 @@ namespace AdsSolution
 {
     public partial class ParentForm : Form
     {
+        UserDatabaseJSON UDB;
+        User U;
+        
         public ParentForm()
         {
             InitializeComponent();
+            UDB = new UserDatabaseJSON();
+            U = UDB.LoadUser();
         }
 
         private void NewAdBtn_Click(object sender, EventArgs e)
