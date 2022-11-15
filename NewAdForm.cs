@@ -65,10 +65,10 @@ namespace AdsSolution
                 if (p.Name == "AddPhoto") continue;
                 _temp.Add(p.Image);
             }
-            Ad ad = new Ad(TitleBox.Text, _temp, U.Phone, DescBox.Text, 0, U.OwnerKey);
+            Ad ad = new Ad(TitleBox.Text, U.Phone, DescBox.Text, 0, U.OwnerKey);
             ADB.Add(ad);
             
-            this.Hide();
+            this.Close();
         }
     }
 }

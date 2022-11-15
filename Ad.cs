@@ -31,7 +31,7 @@ namespace AdsSolution
             get;
             set;
         } = 0;
-        private Guid OwnedBy
+        public Guid OwnedBy
         {
             get;
             set;
@@ -42,16 +42,12 @@ namespace AdsSolution
             set;
         } = DateTime.Now;
        
-        public List<Image> Photos
-        {
-            get;
-            set;
-        }
+      
 
-        public Ad(string _Title, List<Image> _Photos, string _Contact, string _Description, int _Views, Guid _OwnedBy)
+        public Ad(string _Title, string _Contact, string _Description, int _Views, Guid _OwnedBy)
         {
             Title = _Title;
-            Photos = _Photos;
+           
             Contact = _Contact;
             Description = _Description;
             Views = _Views;
