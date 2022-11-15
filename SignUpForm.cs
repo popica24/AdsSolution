@@ -25,28 +25,66 @@ namespace AdsSolution
             PhoneBox.GotFocus += RemovePhoneTextOnFocus;
             context = new UserDatabaseJSON();
         }
-        
+
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            if (!U.EmailIsValid(EmailBox.Text)) { EmailStatus.Text = "Invalid Email !"; EmailStatus.ForeColor = Color.Red; SignUp.Enabled = false; }
-            else { EmailStatus.Text = ""; SignUp.Enabled = true; }
+            if (!U.EmailIsValid(EmailBox.Text))
+            {
+                EmailStatus.Text = "Invalid Email !";
+                EmailStatus.ForeColor = Color.Red;
+                SignUp.Enabled = false;
             }
+            else
+            {
+                EmailStatus.Text = "";
+                SignUp.Enabled = true;
+            }
+        }
         private void NameBox_TextChanged(object sender, EventArgs e)
         {
-            if (NameBox.Text == "Name" || NameBox.Text == "") { { NameStatus.Text = "Invalid Email !"; NameStatus.ForeColor = Color.Red; SignUp.Enabled = false; } }
-            else { NameStatus.Text = ""; SignUp.Enabled = true; }
+            if (NameBox.Text == "Name" || NameBox.Text == "")
+            {
+                {
+                    NameStatus.Text = "Invalid Email !";
+                    NameStatus.ForeColor = Color.Red;
+                    SignUp.Enabled = false;
+                }
+            }
+            else
+            {
+                NameStatus.Text = "";
+                SignUp.Enabled = true;
+            }
         }
         private void PasswordBox_TextChanged(object sender, EventArgs e)
         {
-            if (!U.PaswordIsValid(PasswordBox.Text)) { PasswordStatus.Text = "Invalid Password !"; PasswordStatus.ForeColor = Color.Red; SignUp.Enabled = false; }else 
-            { PasswordStatus.Text = ""; SignUp.Enabled = true; }
+            if (!U.PaswordIsValid(PasswordBox.Text))
+            {
+                PasswordStatus.Text = "Invalid Password !";
+                PasswordStatus.ForeColor = Color.Red;
+                SignUp.Enabled = false;
+            }
+            else
+            {
+                PasswordStatus.Text = "";
+                SignUp.Enabled = true;
+            }
         }
         private void PhoneBox_TextChanged(object sender, EventArgs e)
         {
-            if (!U.PhoneIsValid(PhoneBox.Text)) { PhoneStatus.Text = "Invalid Password !"; PhoneStatus.ForeColor = Color.Red; SignUp.Enabled = false; }
-            else { PhoneStatus.Text = ""; SignUp.Enabled = true; }
+            if (!U.PhoneIsValid(PhoneBox.Text))
+            {
+                PhoneStatus.Text = "Invalid Password !";
+                PhoneStatus.ForeColor = Color.Red;
+                SignUp.Enabled = false;
+            }
+            else
+            {
+                PhoneStatus.Text = "";
+                SignUp.Enabled = true;
+            }
         }
-        
+
         private void RemoveEmailTextOnFocus(object sender, EventArgs e)
         {
             if (EmailBox.Text == "Email")
@@ -69,19 +107,18 @@ namespace AdsSolution
             }
         }
         private void RemovePhoneTextOnFocus(object sender, EventArgs e)
+        {
+            if (PhoneBox.Text == "Phone")
             {
-                if (PhoneBox.Text == "Phone")
-                {
                 PhoneBox.Text = "";
-                }
             }
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            User U = new User(NameBox.Text,PasswordBox.Text,EmailBox.Text,PhoneBox.Text);
+            User U = new User(NameBox.Text, PasswordBox.Text, EmailBox.Text, PhoneBox.Text);
             context.CreateNewUser(U);
         }
 
-       
     }
 }

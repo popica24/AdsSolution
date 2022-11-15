@@ -11,13 +11,42 @@ namespace AdsSolution
 {
     public class User
     {
-        public bool IsAdmin { get; private set; } = false;
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
-        public Guid OwnerKey { get; private set; } = Guid.NewGuid();
-     
+        public bool IsAdmin
+        {
+            get;
+            set;
+        } = false;
+        public string Username
+        {
+            get;
+            set;
+        }
+        public string Password
+        {
+            get;
+            set;
+        }
+        public string Email
+        {
+            get;
+            set;
+        }
+        public string Phone
+        {
+            get;
+            set;
+        }
+        public Guid OwnerKey
+        {
+            get;
+            set;
+        } = Guid.NewGuid();
+        public int LoginToken
+        {
+            get;
+            set;
+        }
+
         public User()
         {
             Username = String.Empty;
@@ -25,14 +54,14 @@ namespace AdsSolution
             Email = String.Empty;
             Phone = String.Empty;
         }
-        public User(string _Username,string _Password, string _Email,string _Phone)
+        public User(string _Username, string _Password, string _Email, string _Phone)
         {
             Username = _Username;
             Password = _Password;
             Email = _Email;
             Phone = _Phone;
         }
-        
+
         public bool PhoneIsValid(string Phone)
         {
             if (string.IsNullOrEmpty(Phone)) return false;
@@ -42,13 +71,11 @@ namespace AdsSolution
         {
             string EmailFormat = @"^[a-zA-Z0-9@.]*$";
             if (string.IsNullOrEmpty(email)) return false;
-            if (Regex.Matches(email, Regex.Escape(".")).Count == 1 &&
-                Regex.Matches(email, Regex.Escape("@")).Count == 1 &&
-                Regex.IsMatch(email, EmailFormat))
+            if (Regex.Matches(email, Regex.Escape(".")).Count == 1 && Regex.Matches(email, Regex.Escape("@")).Count == 1 && Regex.IsMatch(email, EmailFormat))
             {
                 var tail = email.Substring(email.IndexOf("@"));
-                return (tail == "@gmail.com" || tail == "@yahoo.com" || tail == "hotmail.com" || tail == "outlook.com");//Pasul 2 (De Implementat JSON) !!!!!!!!
-                
+                return (tail == "@gmail.com" || tail == "@yahoo.com" || tail == "hotmail.com" || tail == "outlook.com"); //Pasul 2 (De Implementat JSON) !!!!!!!!
+
             }
 
             return false;
@@ -56,10 +83,10 @@ namespace AdsSolution
         }
         public bool PaswordIsValid(string password)
         {
-            string PassFormat = @"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#_?!@$%^&*-]).{8,}$"; 
+            string PassFormat = @"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#_?!@$%^&*-]).{8,}$";
             //https://uibakery.io/regex-library/password-regex-csharp
             if (string.IsNullOrEmpty(password)) return false;
-            if(Regex.IsMatch(password, PassFormat))
+            if (Regex.IsMatch(password, PassFormat))
             {
                 if (password.Any(c => !char.IsWhiteSpace(c))) return true;
             }
@@ -71,7 +98,6 @@ namespace AdsSolution
             if (string.IsNullOrEmpty(name)) return false;
             return (Regex.IsMatch(name, NameFormat));
         }
-        
         public override bool Equals(object obj)
         {
             if (obj == null || !this.GetType().Equals(obj.GetType())) return false;
@@ -81,7 +107,7 @@ namespace AdsSolution
         }
         public override string ToString()
         {
-            return $"Username : {Username}\nPassword : {Password}\nEmail : {Email}";
+            return $"Username : {Username}\nEmail : {Email}";
         }
         public override int GetHashCode()
         {
@@ -93,4 +119,5 @@ namespace AdsSolution
             }
         }
     }
+
 }

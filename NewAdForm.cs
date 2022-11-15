@@ -12,11 +12,14 @@ namespace AdsSolution
 {
     public partial class NewAdForm : Form
     {
-       
-        public NewAdForm()
+        User U;
+        AdDatabaseJSON ADB;
+        public NewAdForm(User PassedUser)
         {
             InitializeComponent();
             ImageGrid.Controls.Add(AddPhoto, 0, 0);
+            U = PassedUser;
+            ADB = new AdDatabaseJSON();
         }
         private string GetPictureBoxName()
         {
@@ -42,11 +45,11 @@ namespace AdsSolution
             {
                 for (int colIndex = 0; colIndex < ImageGrid.ColumnCount; colIndex++)
                 {
-                    Control c = ImageGrid.GetControlFromPosition(colIndex,rowIndex);
-                    if (c == null || c.Name=="AddPhoto")
+                    Control c = ImageGrid.GetControlFromPosition(colIndex, rowIndex);
+                    if (c == null || c.Name == "AddPhoto")
                     {
                         ImageGrid.Controls.Add(CreatePictureBox(FilePath, GetPictureBoxName()), colIndex, rowIndex);
-                        ImageGrid.Controls.Add(AddPhoto, colIndex+1, rowIndex);
+                        ImageGrid.Controls.Add(AddPhoto, colIndex + 1, rowIndex);
                         goto End;
                     }
                 }
@@ -62,13 +65,10 @@ namespace AdsSolution
                 if (p.Name == "AddPhoto") continue;
                 _temp.Add(p.Image);
             }
-           /* Ad ad = new Ad()//DE ADAUGAT CONTACT
-            {
-                Title = TitleBox.Text,
-                Description = DescBox.Text,
-                Photos = _temp
-            };*/
+            Ad ad = new Ad(TitleBox.Text, _temp, U.Phone, DescBox.Text, 0, U.OwnerKey);
+            ADB.Add(ad);
+            
+            this.Hide();
         }
     }
-
 }
