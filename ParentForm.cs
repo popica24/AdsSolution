@@ -15,16 +15,22 @@ namespace AdsSolution
         UserDatabaseJSON UDB;
         User U;
         
-        public ParentForm()
+        public ParentForm(User PassedUser)
         {
+           
             InitializeComponent();
             UDB = new UserDatabaseJSON();
-            U = UDB.LoadUser();
+            U = PassedUser;
+            CurentUser.Text = U.ToString();
+            foreach(User u in UDB.GetElements())
+            {
+                SocialPanel.Controls.Add(UDB.CreateContainer(u));
+            }
         }
 
         private void NewAdBtn_Click(object sender, EventArgs e)
         {
-            NewAdForm AdForm = new NewAdForm();
+            NewAdForm AdForm = new NewAdForm(U);
             AdForm.Show();
         }
     }

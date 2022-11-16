@@ -12,13 +12,11 @@ namespace AdsSolution
 {
     public partial class LoginForm : Form
     {
-        User U;
+        
         UserDatabaseJSON UDB;
         public LoginForm()
         {
             InitializeComponent();
-            EmailBox.GotFocus +=RemoveEmailTextOnFocus;
-            PasswordBox.GotFocus += RemovePasswordTextOnFocus;
             UDB = new UserDatabaseJSON();
         }
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -27,42 +25,21 @@ namespace AdsSolution
             SignUpForm S = new SignUpForm();
             S.Show();
         }
-        
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-            if (!U.EmailIsValid(EmailBox.Text)) { EmailStatus.Text = "Invalid Email !"; EmailStatus.ForeColor = Color.Red; Login.Enabled = false; }
-            else { EmailStatus.Text = ""; Login.Enabled = true; }
-        }
-        private void PasswordBox_TextChanged(object sender, EventArgs e)
-        {
-            if (!U.PaswordIsValid(PasswordBox.Text)) { PasswordStatus.Text = "Invalid Password !"; PasswordStatus.ForeColor = Color.Red; Login.Enabled = false; }
-            { PasswordStatus.Text = ""; Login.Enabled = true; }
-        }
- 
-        private void RemoveEmailTextOnFocus(object sender, EventArgs e)
-        {
-            if (EmailBox.Text == "Email")
-            {
-                EmailBox.Text = "";
-            }
-        }
-        private void RemovePasswordTextOnFocus(object sender, EventArgs e)
-        {
-            if (PasswordBox.Text == "Password")
-            {
-                PasswordBox.Text = "";
-            }
-        }
 
         private void Login_Click(object sender, EventArgs e)
         {
-          
-            if(UDB.GetLoginToken(EmailBox.Text, PasswordBox.Text) != 0)
+
+            var email = EmailBox.Text;
+            var password = PasswordBox.Text;
+            if (UDB.GetLoginToken(email,password) != 0)
             {
                 this.Hide();
-                ParentForm P = new ParentForm();
+                var token = UDB.GetLoginToken(email, password);
+                ParentForm P = new ParentForm(UDB.LoadElement(token));
+                P.FormClosed += (s, args) =>this.Close();
                 P.Show();
             }
+            else return;
         }
     }
 }

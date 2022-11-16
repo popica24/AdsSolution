@@ -51,6 +51,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ad.cs" />
+    <Compile Include="AdDatabaseJSON.cs" />
+    <Compile Include="ImageHandler.cs" />
+    <Compile Include="JsonDatabase.cs" />
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -79,7 +82,6 @@
     </Compile>
     <Compile Include="User.cs" />
     <Compile Include="UserDatabaseJSON.cs" />
-    <Compile Include="UserRepository.cs" />
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>

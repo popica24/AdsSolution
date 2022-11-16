@@ -33,8 +33,6 @@
             this.PasswordBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.EmailStatus = new System.Windows.Forms.Label();
-            this.PasswordStatus = new System.Windows.Forms.Label();
             this.Login = new System.Windows.Forms.Button();
             this.ForgotPassword = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
@@ -56,8 +54,6 @@
             this.EmailBox.Name = "EmailBox";
             this.EmailBox.Size = new System.Drawing.Size(282, 20);
             this.EmailBox.TabIndex = 3;
-            this.EmailBox.Text = "Email";
-            this.EmailBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // PasswordBox
             // 
@@ -65,8 +61,6 @@
             this.PasswordBox.Name = "PasswordBox";
             this.PasswordBox.Size = new System.Drawing.Size(282, 20);
             this.PasswordBox.TabIndex = 4;
-            this.PasswordBox.Text = "Password";
-            this.PasswordBox.TextChanged += new System.EventHandler(this.PasswordBox_TextChanged);
             // 
             // label4
             // 
@@ -87,22 +81,6 @@
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "Sign Up";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
-            // 
-            // EmailStatus
-            // 
-            this.EmailStatus.AutoSize = true;
-            this.EmailStatus.Location = new System.Drawing.Point(28, 104);
-            this.EmailStatus.Name = "EmailStatus";
-            this.EmailStatus.Size = new System.Drawing.Size(0, 13);
-            this.EmailStatus.TabIndex = 7;
-            // 
-            // PasswordStatus
-            // 
-            this.PasswordStatus.AutoSize = true;
-            this.PasswordStatus.Location = new System.Drawing.Point(28, 148);
-            this.PasswordStatus.Name = "PasswordStatus";
-            this.PasswordStatus.Size = new System.Drawing.Size(0, 13);
-            this.PasswordStatus.TabIndex = 8;
             // 
             // Login
             // 
@@ -131,8 +109,6 @@
             this.ClientSize = new System.Drawing.Size(340, 334);
             this.Controls.Add(this.ForgotPassword);
             this.Controls.Add(this.Login);
-            this.Controls.Add(this.PasswordStatus);
-            this.Controls.Add(this.EmailStatus);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.PasswordBox);
@@ -152,8 +128,6 @@
         private System.Windows.Forms.TextBox PasswordBox;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.LinkLabel linkLabel1;
-        private System.Windows.Forms.Label EmailStatus;
-        private System.Windows.Forms.Label PasswordStatus;
         private System.Windows.Forms.Button Login;
         private System.Windows.Forms.LinkLabel ForgotPassword;
     }

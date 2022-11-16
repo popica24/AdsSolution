@@ -81,7 +81,7 @@ namespace AdsSolution
         }
         public override string ToString()
         {
-            return $"Username : {Username}\nPassword : {Password}\nEmail : {Email}";
+            return $"Username : {Username}\nEmail : {Email}";
         }
         public override int GetHashCode()
         {

@@ -7,10 +7,12 @@ using System.Linq;
 using Newtonsoft.Json.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Drawing;
 
 namespace AdsSolution
 {
-    public class UserDatabaseJSON
+    public class UserDatabaseJSON : IDatabaseJSON<User>
     {
         private string filePath
         {
@@ -23,12 +25,12 @@ namespace AdsSolution
             if (!DatabaseExists()) DatabaseCreate();
 
         }
-        private bool DatabaseExists()
+        public bool DatabaseExists()
         {
 
             return File.Exists(Path.Combine(filePath, "Users.json"));
         }
-        private void DatabaseCreate()
+        public void DatabaseCreate()
         {
             if (!Directory.Exists(filePath))
                 Directory.CreateDirectory(filePath);
@@ -36,14 +38,15 @@ namespace AdsSolution
             if (!File.Exists(Path.Combine(filePath, "Users.json")))
                 File.Create(Path.Combine(filePath, "Users.json"));
         }
-        public User LoadUser(int LoginToken)
+        public User LoadElement(int LoginToken)
         {
             var Text = File.ReadAllText(Path.Combine(filePath, "Users.json"));
             var UserList = JsonConvert.DeserializeObject<Dictionary<int,User>>(Text);
             return UserList[LoginToken];
         }
     
-        public void CreateNewUser(User U)
+  
+        public void AddElement(User U)
         {
             var UserList = new Dictionary<int, User>();
             var Text = File.ReadAllText(Path.Combine(filePath, "Users.json"));
@@ -56,12 +59,44 @@ namespace AdsSolution
         }
         public int GetLoginToken(string email, string password)
         {
-
+            
             var Text = File.ReadAllText(Path.Combine(filePath, "Users.json"));
             var UserList = JsonConvert.DeserializeObject<Dictionary<int, User>>(Text);
-            return UserList.FirstOrDefault(x => (String.Equals(x.Value.Email, email) && String.Equals(x.Value.Password, password))).Key;
-            
+            var c = UserList.FirstOrDefault(x => (String.Equals(x.Value.Email, email) && String.Equals(x.Value.Password, password))).Key;
+            return c;
         }
         
+        public GroupBox CreateContainer(User U)
+        {
+            GroupBox G = new GroupBox();
+            G.Text = "";
+            G.Size = new Size(268, 100);
+            G.Name = U.Username;
+            Label L = new Label();
+            L.Text = U.ToString();
+            L.AutoSize = true;
+            L.Location = new Point(268 / 2, 100 / 2);
+            G.Controls.Add(L);
+
+            return G;
+        }
+
+        public List<User> GetElements()
+        {
+            var _temp = new List<User>();
+            var text = File.ReadAllText(Path.Combine(filePath, "Users.json"));
+            var Users = JsonConvert.DeserializeObject<Dictionary<int, User>>(text);
+            foreach(KeyValuePair<int,User> entry in Users)
+            {
+
+                _temp.Add(entry.Value);
+            }
+            return _temp;
+        }
+
+        public void CreateNewElement(User entry)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
