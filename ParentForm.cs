@@ -22,8 +22,9 @@ namespace AdsSolution
             UDB = new UserDatabaseJSON();
             U = PassedUser;
             CurentUser.Text = U.ToString();
-            foreach(User u in UDB.GetElements())
+             foreach(User u in UDB.GetElements())
             {
+                if (u.Equals(PassedUser)) continue;
                 SocialPanel.Controls.Add(UDB.CreateContainer(u));
             }
         }
