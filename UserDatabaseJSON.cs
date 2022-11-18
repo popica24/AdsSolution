@@ -45,7 +45,7 @@ namespace AdsSolution
             return UserList[LoginToken];
         }
     
-  
+   
         public void AddElement(User U)
         {
             var UserList = new Dictionary<int, User>();
@@ -66,7 +66,7 @@ namespace AdsSolution
             return c;
         }
         
-        public GroupBox CreateContainer(User U)
+        public GroupBox CreateContainer(User U,bool IsOwned)
         {
             GroupBox G = new GroupBox();
             G.Text = "";
@@ -75,7 +75,7 @@ namespace AdsSolution
             Label L = new Label();
             L.Text = U.ToString();
             L.AutoSize = true;
-            L.Location = new Point(268 / 2, 100 / 2);
+            L.Location = new Point(6, 36);
             G.Controls.Add(L);
 
             return G;
@@ -93,10 +93,10 @@ namespace AdsSolution
             }
             return _temp;
         }
-
-        public void CreateNewElement(User entry)
+        public void LogOut(User U)
         {
-            throw new NotImplementedException();
+            U = new User();
         }
+     
     }
 }

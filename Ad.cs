@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace AdsSolution
 {
     public class Ad
-    {
+    {//150x150  667 171
         public string Title { get; set; }
         public List<string> Photos { get; set; }
         public string Contact { get; set; } = "Phone";
@@ -25,7 +25,6 @@ namespace AdsSolution
             Photos = _Photos;
             Contact = _Contact;
             Description = _Description;
-         
             OwnedBy = _OwnedBy;
         }
 

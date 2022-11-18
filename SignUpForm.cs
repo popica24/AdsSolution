@@ -24,7 +24,7 @@ namespace AdsSolution
         private void button1_Click(object sender, EventArgs e)
         {
             User U = new User(NameBox.Text, PasswordBox.Text, EmailBox.Text, PhoneBox.Text);
-            UDB.CreateNewElement(U);
+            UDB.AddElement(U);
         }
     }
 }

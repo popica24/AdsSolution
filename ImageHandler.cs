@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -10,18 +12,29 @@ namespace AdsSolution
 {
     public class ImageHandler
     {
-        public Image ScaleImage(Image image, int height)
+        public Image ResizeImage(Image image, int width, int height)
         {
-            double ratio = (double)height / image.Height;
-            int newWidth = (int)(image.Width * ratio);
-            int newHeight = (int)(image.Height * ratio);
-            Bitmap newImage = new Bitmap(newWidth, newHeight);
-            using (Graphics g = Graphics.FromImage(newImage))
+            var destRect = new Rectangle(0, 0, width, height);
+            var destImage = new Bitmap(width, height);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage))
             {
-                g.DrawImage(image, 0, 0, newWidth, newHeight);
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
             }
-            image.Dispose();
-            return newImage;
+
+            return (Image)destImage;
         }
 
         public string ImageToString(Image path, MemoryStream ms)
@@ -32,12 +45,10 @@ namespace AdsSolution
 
             Image im = path;
 
-
-
-            im.Save(ms, im.RawFormat);
+            im.Save(ms, ImageFormat.Jpeg);
 
             byte[] array = ms.ToArray();
-          //  path.Dispose();
+            path.Dispose();
 
             return Convert.ToBase64String(array);
 

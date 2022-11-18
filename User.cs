@@ -16,7 +16,7 @@ namespace AdsSolution
         public string Password { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public Guid OwnerKey { get; private set; } = Guid.NewGuid();
+        public Guid OwnerKey { get; set; } 
      
         public User()
         {
@@ -24,6 +24,7 @@ namespace AdsSolution
             Password = String.Empty;
             Email = String.Empty;
             Phone = String.Empty;
+            OwnerKey = Guid.Empty;
         }
         public User(string _Username,string _Password, string _Email,string _Phone)
         {
@@ -31,6 +32,7 @@ namespace AdsSolution
             Password = _Password;
             Email = _Email;
             Phone = _Phone;
+            OwnerKey = Guid.NewGuid();
         }
         
         public bool PhoneIsValid(string Phone)
