@@ -31,8 +31,11 @@ namespace AdsSolution
 
         private void NewAdBtn_Click(object sender, EventArgs e)
         {
-            NewAdForm AdForm = new NewAdForm(U);
-            AdForm.Show();
+            //NewAdForm AdForm = new NewAdForm(U);
+            //AdForm.Show();
+            using(NewAdForm AdForm = new NewAdForm(U)){
+            AdForm.ShowDialog();
+            }
         }
     }
 }
