@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -52,7 +55,12 @@
   <ItemGroup>
     <Compile Include="Ad.cs" />
     <Compile Include="AdDatabaseJSON.cs" />
-    <Compile Include="ImageHandler.cs" />
+    <Compile Include="EditAdForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditAdForm.Designer.cs">
+      <DependentUpon>EditAdForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="JsonDatabase.cs" />
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
@@ -82,6 +90,9 @@
     </Compile>
     <Compile Include="User.cs" />
     <Compile Include="UserDatabaseJSON.cs" />
+    <EmbeddedResource Include="EditAdForm.resx">
+      <DependentUpon>EditAdForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>

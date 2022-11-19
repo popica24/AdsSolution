@@ -15,16 +15,23 @@ namespace AdsSolution
     
         UserDatabaseJSON UDB;
 
-        public SignUpForm()
+        public SignUpForm(UserDatabaseJSON _UDB)
         {
             InitializeComponent();
-            UDB = new UserDatabaseJSON();
+            UDB = _UDB;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            User U = new User(NameBox.Text, PasswordBox.Text, EmailBox.Text, PhoneBox.Text);
-            UDB.AddElement(U);
+            if (!UDB.UserList.Any
+                 (a => a.Value.Email.Equals(EmailBox.Text, StringComparison.CurrentCultureIgnoreCase) ||
+                 a.Value.Phone.Equals(PhoneBox.Text)))
+            {
+                User U = new User(NameBox.Text, PasswordBox.Text, EmailBox.Text, PhoneBox.Text);
+                UDB.AddElement(U);
+                
+            }
+            return;
         }
     }
 }

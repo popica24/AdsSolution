@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace AdsSolution
 {
     public class Ad
-    {//150x150  667 171
+    {
         public string Title { get; set; }
         public List<string> Photos { get; set; }
         public string Contact { get; set; } = "Phone";
@@ -32,7 +32,12 @@ namespace AdsSolution
         {
             return $"{Title}\n{Description}";
         }
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !this.GetType().Equals(obj.GetType())) return false;
 
-      
+            Ad other = (Ad)obj;
+            return this.Title == other.Title && this.Contact==other.Contact && this.Description==other.Description && this.OwnedBy==other.OwnedBy;
+        }
     }
 }

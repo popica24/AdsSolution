@@ -30,8 +30,6 @@
         {
             this.AdPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.SocialPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
             this.button1 = new System.Windows.Forms.Button();
             this.NewAdBtn = new System.Windows.Forms.Button();
             this.CurentUser = new System.Windows.Forms.Label();
@@ -114,8 +112,6 @@
         #endregion
         private System.Windows.Forms.FlowLayoutPanel AdPanel;
         private System.Windows.Forms.FlowLayoutPanel SocialPanel;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.ComponentModel.BackgroundWorker backgroundWorker2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button NewAdBtn;
         private System.Windows.Forms.Label CurentUser;

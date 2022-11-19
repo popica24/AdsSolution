@@ -13,26 +13,24 @@ namespace AdsSolution
 {
     public partial class NewAdForm : Form
     {
-        public User TargetUser;
-        public AdDatabaseJSON ADB = new AdDatabaseJSON();
-        public ImageHandler Handler = new ImageHandler();
-
-        public NewAdForm(User U)
+        private User TargetUser;
+        private AdDatabaseJSON ADB;
+        public NewAdForm(User U, AdDatabaseJSON _ADB)
         {
             InitializeComponent();
             ImageGrid.Controls.Add(AddPhoto, 0, 0);
             TargetUser = U;
+            ADB = _ADB;
         }
 
         private string GetPictureBoxName()
         {
             return ImageContainer.Images.Count + 1.ToString();
         }
-
         private PictureBox CreatePictureBox(string FilePath, string Name)
         {
             PictureBox Picture = new PictureBox();
-            Picture.Image = Handler.ResizeImage(Image.FromFile(FilePath), 188, 188);
+            Picture.Image = ADB.ResizeImage(Image.FromFile(FilePath), 188, 188);
             Picture.Name = Name;
             Picture.Width = 188;
             Picture.Height = 188;
@@ -59,18 +57,16 @@ namespace AdsSolution
             }
         End: return;
         }
-
         private void Post_Click(object sender, EventArgs e)
         {
 
             var _temp = new List<string>();
-           
             using (var ms = new MemoryStream())
             {
                 foreach (PictureBox p in ImageGrid.Controls)
                 {
                     if (p.Name == "AddPhoto") continue;
-                    _temp.Add(Handler.ImageToString(p.Image, ms));
+                    _temp.Add(ADB.ImageToString(p.Image, ms));
                 }
             }
 

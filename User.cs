@@ -79,7 +79,7 @@ namespace AdsSolution
             if (obj == null || !this.GetType().Equals(obj.GetType())) return false;
 
             User other = (User)obj;
-            return this.Username == other.Username && this.Password == other.Password;
+            return this.GetHashCode()==other.GetHashCode();
         }
         public override string ToString()
         {

@@ -1,19 +1,25 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Configuration;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AdsSolution
 {
-    public partial class AdDatabaseJSON : IDatabaseJSON<Ad>, IDisposable
+    public class AdDatabaseJSON
     {
-        public ImageHandler handler = new ImageHandler();
+        public List<Ad> AdList = new List<Ad>();
         public string filePath
         {
             get;
@@ -23,65 +29,9 @@ namespace AdsSolution
         {
             filePath = ConfigurationManager.AppSettings["FilePath"];
             if (!DatabaseExists()) DatabaseCreate();
+            AdList = GetElementsAsList();
         }
-        public void AddElement(Ad entry)
-        {
-            var Text = File.ReadAllText(Path.Combine(filePath, "Ads.json"));
-            List<Ad> Ads = new List<Ad>();
-            if (string.IsNullOrEmpty(Text)) { Ads.Add(entry); File.WriteAllText(Path.Combine(filePath, "Ads.json"), JsonConvert.SerializeObject(Ads)); return; }
-
-                Ads = JsonConvert.DeserializeObject<List<Ad>>(Text);
-
-            Ads.Add(entry);
-            File.WriteAllText(Path.Combine(filePath, "Ads.json"), JsonConvert.SerializeObject(Ads));
-
-        }
-
-        public GroupBox CreateContainer(Ad entry,bool IsOwnedByUser)
-        {
-            GroupBox G = new GroupBox();
-            PictureBox P = new PictureBox();
-            P.Image = handler.ResizeImage(handler.StringToImage(entry.Photos[0]), 132, 132);
-            P.Location = new Point(6, 11);
-            P.BorderStyle = BorderStyle.FixedSingle;
-            P.Width = 132;
-            P.Height = 132;
-            Label L = new Label();
-            L.Text = entry.Title;
-            L.Location = new Point(265, 21);
-            Label D = new Label();
-            D.Text = entry.Description;
-            D.Location = new Point(144, 71);
-            Label T = new Label();
-            T.Text = String.Concat("Posted", entry.DatePosted.ToShortDateString());
-            T.Location = new Point(144, 114);
-            G.Controls.Add(P);
-            G.Controls.Add(L);
-            G.Controls.Add(D);
-            G.Controls.Add(T);
-            G.Size = new Size(667, 151);
-            LinkLabel Edit = new LinkLabel();
-            Edit.Text = "Edit";
-            Edit.Location = new Point(636, 103);
-            
-            LinkLabel Delete = new LinkLabel();
-        
-            Delete.Text = "Delete";
-            Delete.Location = new Point(623, 130);
-            L.AutoSize = true;
-            if (IsOwnedByUser == true)
-            {
-                G.Controls.Add(Edit);
-                G.Controls.Add(Delete);
-            }
-            return G;
-        }
-
-        public void CreateNewElement(Ad entry)
-        {
-            throw new NotImplementedException();
-        }
-
+        //Database Status
         public bool DatabaseExists()
         {
 
@@ -96,34 +46,169 @@ namespace AdsSolution
                 File.Create(Path.Combine(filePath, "Ads.json")).Close();
         }
 
-        public List<Ad> GetElements()
+        //GroupBox function
+        public GroupBoxWithRoot CreateContainer(Ad entry, bool IsOwnedByUser)
         {
-            var _temp = new List<Ad>();
-            var text = File.ReadAllText(Path.Combine(filePath, "Ads.json"));
-            if(string.IsNullOrEmpty(text))return _temp;
-            var Ads = JsonConvert.DeserializeObject<List<Ad>>(text);
-            foreach (var entry in Ads)
+            GroupBoxWithRoot GroupBox = new GroupBoxWithRoot();
+            GroupBox.Root = entry;
+            PictureBox PictureBox = new PictureBox();
+            try
+            {
+                PictureBox.Image = ResizeImage(StringToImage(entry.Photos[0]), 132, 132);
+            }
+            catch(Exception ex)
+            {
+                PictureBox.Image = ResizeImage(Image.FromFile("PlaceHolder.jpg"), 132, 132);
+            }
+            PictureBox.Location = new Point(6, 11);
+            PictureBox.BorderStyle = BorderStyle.FixedSingle;
+            PictureBox.Width = 132;
+            PictureBox.Height = 132;
+            GroupBox.Controls.Add(PictureBox);
+
+            Label Title = new Label();
+            Title.Text = entry.Title;
+            Title.Location = new Point(265, 21);
+            GroupBox.Controls.Add(Title);
+
+            Label Description = new Label();
+            Description.Text = entry.Description;
+            Description.Location = new Point(144, 71);
+            GroupBox.Controls.Add(Description);
+
+            Label DateAdded = new Label();
+            DateAdded.Text = String.Concat("Posted", entry.DatePosted.ToShortDateString());
+            DateAdded.Location = new Point(144, 114);
+            GroupBox.Controls.Add(DateAdded);
+
+            LinkLabel Edit = new LinkLabel();
+            Edit.Text = "Edit";
+            Edit.Location = new Point(636, 103);
+            Edit.Click += (s, args) => {
+                using (EditAdForm E = new EditAdForm(GroupBox.Root,this)) {
+                    E.ShowDialog();
+                    E.FormClosed += (_s, _args) =>
+                    {
+                        GroupBox.Root = E.Root;
+                    };
+                }
+            };
+            
+
+            LinkLabel Delete = new LinkLabel();
+            Delete.Text = "Delete";
+            Delete.Location = new Point(623, 130);
+
+            if (IsOwnedByUser == true)
+            {
+                GroupBox.Controls.Add(Edit);
+                GroupBox.Controls.Add(Delete);
+            }
+            GroupBox.Size = new Size(667, 151);
+            return GroupBox;
+        }
+        public List<Ad> GetGroupBoxRoot(Control.ControlCollection _Controls)
+        {
+            List<GroupBoxWithRoot> ControlList = new List<GroupBoxWithRoot>();
+            ControlList.AddRange(_Controls.OfType<GroupBoxWithRoot>());
+            List<Ad> TempList = new List<Ad>();
+            foreach(GroupBoxWithRoot G in ControlList)
+            {
+                TempList.Add(G.Root);
+            }
+            return TempList;
+            
+        }
+            
+        
+
+        //Database Operations
+        public void AddElement(Ad entry)
+        {
+            AdList.Add(entry);
+            File.WriteAllText(Path.Combine(filePath, "Ads.json"), JsonConvert.SerializeObject(AdList));
+        }
+        public List<Ad> GetElementsAsList()
+        {
+            var TempList = new List<Ad>();
+            var RawText = File.ReadAllText(Path.Combine(filePath, "Ads.json"));
+            if (string.IsNullOrEmpty(RawText)) return TempList;
+            var DeserializedText = JsonConvert.DeserializeObject<List<Ad>>(RawText);
+            foreach (var entry in DeserializedText)
             {
 
-                _temp.Add(entry);
+                TempList.Add(entry);
             }
-            return _temp;
+            return TempList;
         }
-    
-
-        public Ad LoadElement(int Key)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-        
         public void DeleteElement(Ad entry)
         {
-            File.WriteAllText(Path.Combine(filePath, "Ads.json"), JsonConvert.SerializeObject(GetElements().Remove(entry)));
+            AdList.Remove(entry);
+            File.WriteAllText(Path.Combine(filePath, "Ads.json"), JsonConvert.SerializeObject(AdList));
         }
+        
+        //Image Work
+        public Image ResizeImage(Image image, int width, int height)
+        {
+            var destRect = new Rectangle(0, 0, width, height);
+            var destImage = new Bitmap(width, height);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+
+            return (Image)destImage;
+        } //De pe StackOverflow
+        public string ImageToString(Image path, MemoryStream ms)
+        {
+            if (path == null)
+
+                throw new ArgumentNullException("path");
+
+            Image im = path;
+
+            im.Save(ms, ImageFormat.Jpeg);
+
+            byte[] array = ms.ToArray();
+            path.Dispose();
+
+            return Convert.ToBase64String(array);
+
+        } //De pe StackOverflow
+        public Image StringToImage(string imageString)
+
+        {
+
+            if (imageString == null)
+
+                throw new ArgumentNullException("imageString");
+
+            byte[] array = Convert.FromBase64String(imageString);
+
+            Image image = Image.FromStream(new MemoryStream(array));
+
+            return image;
+        } //De pe StackOverflow
+       
+        //Linked Label Click Events
+     
+    }
+    public class GroupBoxWithRoot : GroupBox
+    {
+        public Ad Root { get; set; }
     }
 }
+

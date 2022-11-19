@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace AdsSolution
 {
@@ -23,25 +24,29 @@ namespace AdsSolution
            
             InitializeComponent();
             var filePath = ConfigurationManager.AppSettings["FilePath"];
+
             UDB = new UserDatabaseJSON();
             ADB = new AdDatabaseJSON();
-            U = PassedUser;
+            U = PassedUser;  
+          
             W = new FileSystemWatcher();
             W.Path = filePath;
             W.NotifyFilter = NotifyFilters.LastWrite;
             W.Filter = "Ads.json";
             W.Changed += new FileSystemEventHandler(Reload);
             W.EnableRaisingEvents = true;
+
             CurentUser.Text = U.ToString();
-            foreach(User u in UDB.GetElements())
+
+            foreach(User u in UDB.GetElementsAsList())
             {
                 if (u.Equals(PassedUser)) continue;
-                SocialPanel.Controls.Add(UDB.CreateContainer(u,true));
+                else
+                SocialPanel.Controls.Add(UDB.CreateContainer(u));
             }
-            foreach(Ad a in ADB.GetElements())
+            foreach(Ad a in ADB.GetElementsAsList())
             {
                 AdPanel.Controls.Add(ADB.CreateContainer(a, Owns(U, a)));
-                
             }
         }
 
@@ -49,36 +54,36 @@ namespace AdsSolution
         {
             return (_U.OwnerKey == _A.OwnedBy);
         }
-
         private void NewAdBtn_Click(object sender, EventArgs e)
         {
-    
-            NewAdForm N = new NewAdForm(U);
-            
-                
-                N.Show();
-            
-           
-        }
-        public void Reload(object sender, FileSystemEventArgs e)
-        {
-            AdPanel.Controls.Clear();
-            foreach (Ad a in ADB.GetElements())
+            using (NewAdForm N = new NewAdForm(U, ADB))
             {
-               
-                AdPanel.Controls.Add(ADB.CreateContainer(a, Owns(U, a)));
-
+                N.ShowDialog();
             }
         }
+       
+     
+        public void Reload(object sender, FileSystemEventArgs e)
+        {
+            AdPanel.Invoke(new MethodInvoker(delegate () // DE GASIT ALTA METODA
+            {
+                AdPanel.Controls.Clear();
+                foreach (var a in ADB.AdList)
+                {
+                        AdPanel.Controls.Add(ADB.CreateContainer(a, Owns(U, a)));
 
+                }
+            }));
+
+        }//DE GASIT ALTA METODA
         private void button1_Click(object sender, EventArgs e)
         {
-           
             this.Hide();
             UDB.LogOut(this.U);
             LoginForm P = new LoginForm();
             P.FormClosed += (s, args) => this.Close();
             P.Show();
         }
+       
     }
 }

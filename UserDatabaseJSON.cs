@@ -12,19 +12,24 @@ using System.Drawing;
 
 namespace AdsSolution
 {
-    public class UserDatabaseJSON : IDatabaseJSON<User>
+    public class UserDatabaseJSON
     {
         private string filePath
         {
             get;
             set;
         }
+        public Dictionary<int, User> UserList = new Dictionary<int, User>();
+        
         public UserDatabaseJSON()
         {
             filePath = ConfigurationManager.AppSettings["FilePath"];
             if (!DatabaseExists()) DatabaseCreate();
+            UserList = GetElementsAsDictionary();
 
         }
+       
+        //Database Status
         public bool DatabaseExists()
         {
 
@@ -38,35 +43,9 @@ namespace AdsSolution
             if (!File.Exists(Path.Combine(filePath, "Users.json")))
                 File.Create(Path.Combine(filePath, "Users.json"));
         }
-        public User LoadElement(int LoginToken)
-        {
-            var Text = File.ReadAllText(Path.Combine(filePath, "Users.json"));
-            var UserList = JsonConvert.DeserializeObject<Dictionary<int,User>>(Text);
-            return UserList[LoginToken];
-        }
-    
-   
-        public void AddElement(User U)
-        {
-            var UserList = new Dictionary<int, User>();
-            var Text = File.ReadAllText(Path.Combine(filePath, "Users.json"));
-            if (!string.IsNullOrEmpty(Text))
-            {
-                UserList = JsonConvert.DeserializeObject<Dictionary<int, User>>(Text);
-            }
-            UserList.Add(U.GetHashCode(), U);
-            File.WriteAllText(Path.Combine(filePath, "Users.json"), JsonConvert.SerializeObject(UserList));
-        }
-        public int GetLoginToken(string email, string password)
-        {
-            
-            var Text = File.ReadAllText(Path.Combine(filePath, "Users.json"));
-            var UserList = JsonConvert.DeserializeObject<Dictionary<int, User>>(Text);
-            var c = UserList.FirstOrDefault(x => (String.Equals(x.Value.Email, email) && String.Equals(x.Value.Password, password))).Key;
-            return c;
-        }
-        
-        public GroupBox CreateContainer(User U,bool IsOwned)
+       
+        //GroupBox function
+        public GroupBox CreateContainer(User U)
         {
             GroupBox G = new GroupBox();
             G.Text = "";
@@ -80,18 +59,47 @@ namespace AdsSolution
 
             return G;
         }
-
-        public List<User> GetElements()
+        
+        //Database Operations
+        public void AddElement(User U)
         {
-            var _temp = new List<User>();
-            var text = File.ReadAllText(Path.Combine(filePath, "Users.json"));
-            var Users = JsonConvert.DeserializeObject<Dictionary<int, User>>(text);
-            foreach(KeyValuePair<int,User> entry in Users)
-            {
+            
+            UserList.Add(U.GetHashCode(), U);
+            File.WriteAllText(Path.Combine(filePath, "Users.json"), JsonConvert.SerializeObject(UserList));
+        }
+        public int GetLoginToken(string email, string password)
+        {
+            return UserList.FirstOrDefault(x => (String.Equals(x.Value.Email, email) && String.Equals(x.Value.Password, password))).Key;
+        }
+       
+        public User LoadElement(int LoginToken)
+        {
+            return UserList[LoginToken];
+        }
+        public Dictionary<int,User> GetElementsAsDictionary()
+        {
+            var TempDictionary = new Dictionary<int, User>();
 
-                _temp.Add(entry.Value);
+
+            string RawText = File.ReadAllText(Path.Combine(filePath, "Users.json"));
+            
+                var DeserializedText = JsonConvert.DeserializeObject<Dictionary<int, User>>(RawText);
+
+                foreach (var entry in DeserializedText)
+                {
+                    TempDictionary.Add(entry.Key, entry.Value);
+                }
+            
+            return TempDictionary;
+        }
+        public List<User> GetElementsAsList() // Display Only
+        {
+            var TempList = new List<User>();
+            foreach(var entry in UserList.Values)
+            {
+                TempList.Add(entry);
             }
-            return _temp;
+            return TempList;
         }
         public void LogOut(User U)
         {
