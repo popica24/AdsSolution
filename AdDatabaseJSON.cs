@@ -186,12 +186,14 @@ namespace AdsSolution
 
             return (Image)destImage;
         }   //De pe StackOverflow//
-        public string ImageToString(Image image, MemoryStream ms)
+        public string ImageToString(Image image)
         {
-            image.Save(ms, ImageFormat.Jpeg);
-            byte[] array = ms.ToArray();
-          //  image.Dispose();
-            return Convert.ToBase64String(array);
+            using (MemoryStream ms = new MemoryStream())
+            {
+                image.Save(ms, ImageFormat.Jpeg);
+                byte[] imageBytes = ms.ToArray();
+                return Convert.ToBase64String(imageBytes);
+            }
         }     //De pe StackOverflow//
         public Image StringToImage(string imageString)
 

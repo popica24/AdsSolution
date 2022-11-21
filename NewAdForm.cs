@@ -61,14 +61,12 @@ namespace AdsSolution
         {
 
             var _temp = new List<string>();
-            using (var ms = new MemoryStream())
+            foreach (PictureBox p in ImageGrid.Controls)
             {
-                foreach (PictureBox p in ImageGrid.Controls)
-                {
-                    if (p.Name == "AddPhoto") continue;
-                    _temp.Add(ADB.ImageToString(p.Image, ms));
-                }
+                if (p.Name == "AddPhoto") continue;
+                _temp.Add(ADB.ImageToString(p.Image));
             }
+            
 
             Ad ad = new Ad(TitleBox.Text, _temp, TargetUser.Email, DescBox.Text, TargetUser.OwnerKey) //DE ADAUGAT CONTACT
             {

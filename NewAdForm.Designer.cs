@@ -38,16 +38,16 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.TitleBox = new System.Windows.Forms.TextBox();
-            this.AddPhoto = new System.Windows.Forms.PictureBox();
             this.ImageBox = new System.Windows.Forms.GroupBox();
             this.ImageGrid = new System.Windows.Forms.TableLayoutPanel();
             this.Post = new System.Windows.Forms.Button();
             this.ChosePhoto = new System.Windows.Forms.OpenFileDialog();
             this.ImageContainer = new System.Windows.Forms.ImageList(this.components);
+            this.AddPhoto = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.AddPhoto)).BeginInit();
             this.ImageBox.SuspendLayout();
             this.ImageGrid.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.AddPhoto)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -136,19 +136,6 @@
             this.TitleBox.Size = new System.Drawing.Size(193, 26);
             this.TitleBox.TabIndex = 1;
             // 
-            // AddPhoto
-            // 
-            this.AddPhoto.BackColor = System.Drawing.Color.Transparent;
-            this.AddPhoto.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.AddPhoto.Image = ((System.Drawing.Image)(resources.GetObject("AddPhoto.Image")));
-            this.AddPhoto.Location = new System.Drawing.Point(3, 3);
-            this.AddPhoto.Name = "AddPhoto";
-            this.AddPhoto.Size = new System.Drawing.Size(187, 144);
-            this.AddPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.AddPhoto.TabIndex = 0;
-            this.AddPhoto.TabStop = false;
-            this.AddPhoto.Click += new System.EventHandler(this.pictureBox1_Click);
-            // 
             // ImageBox
             // 
             this.ImageBox.Controls.Add(this.ImageGrid);
@@ -197,6 +184,19 @@
             this.ImageContainer.ImageSize = new System.Drawing.Size(16, 16);
             this.ImageContainer.TransparentColor = System.Drawing.Color.Transparent;
             // 
+            // AddPhoto
+            // 
+            this.AddPhoto.BackColor = System.Drawing.Color.Transparent;
+            this.AddPhoto.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.AddPhoto.Image = ((System.Drawing.Image)(resources.GetObject("AddPhoto.Image")));
+            this.AddPhoto.Location = new System.Drawing.Point(3, 3);
+            this.AddPhoto.Name = "AddPhoto";
+            this.AddPhoto.Size = new System.Drawing.Size(187, 144);
+            this.AddPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.AddPhoto.TabIndex = 0;
+            this.AddPhoto.TabStop = false;
+            this.AddPhoto.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
             // NewAdForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -209,9 +209,9 @@
             this.Text = "OLX | Place your ad";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.AddPhoto)).EndInit();
             this.ImageBox.ResumeLayout(false);
             this.ImageGrid.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.AddPhoto)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -226,11 +226,11 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox EmailCheckbox;
         private System.Windows.Forms.CheckBox PhoneCheckbox;
-        private System.Windows.Forms.PictureBox AddPhoto;
         private System.Windows.Forms.GroupBox ImageBox;
         private System.Windows.Forms.TableLayoutPanel ImageGrid;
         private System.Windows.Forms.Button Post;
         private System.Windows.Forms.OpenFileDialog ChosePhoto;
         private System.Windows.Forms.ImageList ImageContainer;
+        private System.Windows.Forms.PictureBox AddPhoto;
     }
 }

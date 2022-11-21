@@ -23,26 +23,29 @@ namespace AdsSolution
             ADB = _ADB;
             TitleBox.Text = Root.Title;
             DescBox.Text = Root.Description;
+          
             for (int i = 0; i < Root.Photos.Count; i++)
             {
-              
-                ImageGrid.Controls.Add(GetPictureBox(ADB.ResizeImage(ADB.StringToImage(Root.Photos[i]), 187, 144)));
-                 if(i<3)
-                ImageGrid.Controls.Add(AddPhoto, i + 1,0);
-                else ImageGrid.Controls.Add(AddPhoto, i + 1, 1);
+                var sToImage = ADB.StringToImage(Root.Photos[i]);
+                var sResized = ADB.ResizeImage(sToImage, 188, 188);
+                ImageGrid.Controls.Add(GetPictureBox(sResized,GetPictureBoxName()));
+          
             }
-           
-        }
+            ImageGrid.Controls.Add(AddPhoto);
 
+
+
+
+        }
+   
         private void Post_Click(object sender, EventArgs e)
         {
             var TempList = new List<string>();
             foreach(PictureBox c in ImageGrid.Controls)
             {
-                using (var ms = new MemoryStream())
-                {
-                    TempList.Add(ADB.ImageToString(c.Image, ms));
-                }
+                if (c.Name == "AdPhoto") continue;
+                    TempList.Add(ADB.ImageToString(c.Image));
+                
             }
             foreach (var a in ADB.AdList) {
                 if (a.Equals(Root))
@@ -59,7 +62,7 @@ namespace AdsSolution
         {
             return ImageContainer.Images.Count + 1.ToString();
         }
-        private PictureBox GetPictureBox(Image img)
+        private PictureBox GetPictureBox(Image img,string Name)
         {
             PictureBox Picture = new PictureBox();
             Picture.Image = img;
@@ -87,7 +90,7 @@ namespace AdsSolution
                 for (int colIndex = 0; colIndex < ImageGrid.ColumnCount; colIndex++)
                 {
                     Control c = ImageGrid.GetControlFromPosition(colIndex, rowIndex);
-                    if (c == null || c.Name == "AddPhoto")
+                    if (c.Name == "AddPhoto")
                     {
                         ImageGrid.Controls.Add(CreatePictureBox(FilePath, GetPictureBoxName()), colIndex, rowIndex);
                         ImageGrid.Controls.Add(AddPhoto, colIndex + 1, rowIndex);
