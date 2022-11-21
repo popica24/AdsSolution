@@ -21,14 +21,14 @@ namespace AdsSolution
         FileSystemWatcher W;
         public ParentForm(User PassedUser)
         {
-           
+
             InitializeComponent();
             var filePath = ConfigurationManager.AppSettings["FilePath"];
 
             UDB = new UserDatabaseJSON();
             ADB = new AdDatabaseJSON();
-            U = PassedUser;  
-          
+            U = PassedUser;
+
             W = new FileSystemWatcher();
             W.Path = filePath;
             W.NotifyFilter = NotifyFilters.LastWrite;
@@ -38,13 +38,13 @@ namespace AdsSolution
 
             CurentUser.Text = U.ToString();
 
-            foreach(User u in UDB.GetElementsAsList())
+            foreach (User u in UDB.GetElementsAsList())
             {
                 if (u.Equals(PassedUser)) continue;
                 else
-                SocialPanel.Controls.Add(UDB.CreateContainer(u));
+                    SocialPanel.Controls.Add(UDB.CreateContainer(u));
             }
-            foreach(Ad a in ADB.GetElementsAsList())
+            foreach (Ad a in ADB.GetElementsAsList())
             {
                 AdPanel.Controls.Add(ADB.CreateContainer(a, Owns(U, a)));
             }
@@ -61,21 +61,39 @@ namespace AdsSolution
                 N.ShowDialog();
             }
         }
-       
-     
+
         public void Reload(object sender, FileSystemEventArgs e)
         {
-            AdPanel.Invoke(new MethodInvoker(delegate () // DE GASIT ALTA METODA
+            AdPanel.Invoke(new MethodInvoker(delegate ()
             {
-                AdPanel.Controls.Clear();
-                foreach (var a in ADB.AdList)
+                // var list1 = ADB.AdList; CEA CARE SE MODIFICA LA EDIT !!!!!!!
+                // var list2 = ADB.GetListOfGroupBoxRoot(AdPanel.Controls);
+                if (ADB.AdList.Count == ADB.GetListOfGroupBoxRoot(AdPanel.Controls).Count)
                 {
-                        AdPanel.Controls.Add(ADB.CreateContainer(a, Owns(U, a)));
-
+                    //DE IMPLEMENTAT
                 }
+                else if (ADB.AdList.Count < ADB.GetListOfGroupBoxRoot(AdPanel.Controls).Count)
+                {
+                    var RemovedItem = ADB.GetListOfGroupBoxRoot(AdPanel.Controls).Except(ADB.AdList);
+                    foreach (var a in RemovedItem)
+                    {
+                        AdPanel.Controls.Remove(ADB.GetGroupBoxByRoot(a, AdPanel.Controls));
+                    }
+                    
+                }
+                else if (ADB.AdList.Count > ADB.GetListOfGroupBoxRoot(AdPanel.Controls).Count)
+                {
+                    var AddedItem = (ADB.AdList).Except(ADB.GetListOfGroupBoxRoot(AdPanel.Controls));
+                    foreach (var a in AddedItem)
+                    {
+                        AdPanel.Controls.Add(ADB.CreateContainer(a, Owns(U, a)));
+                    }
+                    
+                }
+            
             }));
 
-        }//DE GASIT ALTA METODA
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -84,6 +102,6 @@ namespace AdsSolution
             P.FormClosed += (s, args) => this.Close();
             P.Show();
         }
-       
+
     }
 }

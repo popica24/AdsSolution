@@ -25,12 +25,13 @@ namespace AdsSolution
             DescBox.Text = Root.Description;
             for (int i = 0; i < Root.Photos.Count; i++)
             {
-                ImageGrid.Controls.Add(GetPictureBox(ADB.ResizeImage(ADB.StringToImage(Root.Photos[i]), 132, 132)));
-                if(i<3)
+              
+                ImageGrid.Controls.Add(GetPictureBox(ADB.ResizeImage(ADB.StringToImage(Root.Photos[i]), 187, 144)));
+                 if(i<3)
                 ImageGrid.Controls.Add(AddPhoto, i + 1,0);
                 else ImageGrid.Controls.Add(AddPhoto, i + 1, 1);
             }
-            
+           
         }
 
         private void Post_Click(object sender, EventArgs e)

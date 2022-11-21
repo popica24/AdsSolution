@@ -71,7 +71,6 @@ namespace AdsSolution
         {
             return UserList.FirstOrDefault(x => (String.Equals(x.Value.Email, email) && String.Equals(x.Value.Password, password))).Key;
         }
-       
         public User LoadElement(int LoginToken)
         {
             return UserList[LoginToken];
@@ -92,7 +91,7 @@ namespace AdsSolution
             
             return TempDictionary;
         }
-        public List<User> GetElementsAsList() // Display Only
+        public List<User> GetElementsAsList()
         {
             var TempList = new List<User>();
             foreach(var entry in UserList.Values)
@@ -105,6 +104,5 @@ namespace AdsSolution
         {
             U = new User();
         }
-     
     }
 }

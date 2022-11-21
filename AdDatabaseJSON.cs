@@ -17,7 +17,7 @@ using System.Windows.Forms;
 
 namespace AdsSolution
 {
-    public class AdDatabaseJSON
+    public class AdDatabaseJSON 
     {
         public List<Ad> AdList = new List<Ad>();
         public string filePath
@@ -45,6 +45,7 @@ namespace AdsSolution
             if (!File.Exists(Path.Combine(filePath, "Ads.json")))
                 File.Create(Path.Combine(filePath, "Ads.json")).Close();
         }
+
 
         //GroupBox function
         public GroupBoxWithRoot CreateContainer(Ad entry, bool IsOwnedByUser)
@@ -98,6 +99,11 @@ namespace AdsSolution
             LinkLabel Delete = new LinkLabel();
             Delete.Text = "Delete";
             Delete.Location = new Point(623, 130);
+            Delete.Click += (s, args) =>
+            {
+                AdList.Remove(entry);
+                File.WriteAllText(Path.Combine(filePath, "Ads.json"), JsonConvert.SerializeObject(AdList));
+            };
 
             if (IsOwnedByUser == true)
             {
@@ -107,7 +113,7 @@ namespace AdsSolution
             GroupBox.Size = new Size(667, 151);
             return GroupBox;
         }
-        public List<Ad> GetGroupBoxRoot(Control.ControlCollection _Controls)
+        public List<Ad> GetListOfGroupBoxRoot(Control.ControlCollection _Controls)
         {
             List<GroupBoxWithRoot> ControlList = new List<GroupBoxWithRoot>();
             ControlList.AddRange(_Controls.OfType<GroupBoxWithRoot>());
@@ -119,8 +125,15 @@ namespace AdsSolution
             return TempList;
             
         }
-            
-        
+        public GroupBoxWithRoot GetGroupBoxByRoot(Ad entry, Control.ControlCollection _Controls)
+        {
+            foreach(GroupBoxWithRoot C in _Controls)
+            {
+                if (C.Root.Equals(entry)) return C;
+            }
+            return null;
+        }
+      
 
         //Database Operations
         public void AddElement(Ad entry)
@@ -147,6 +160,7 @@ namespace AdsSolution
             File.WriteAllText(Path.Combine(filePath, "Ads.json"), JsonConvert.SerializeObject(AdList));
         }
         
+
         //Image Work
         public Image ResizeImage(Image image, int width, int height)
         {
@@ -171,40 +185,21 @@ namespace AdsSolution
             }
 
             return (Image)destImage;
-        } //De pe StackOverflow
-        public string ImageToString(Image path, MemoryStream ms)
+        }   //De pe StackOverflow//
+        public string ImageToString(Image image, MemoryStream ms)
         {
-            if (path == null)
-
-                throw new ArgumentNullException("path");
-
-            Image im = path;
-
-            im.Save(ms, ImageFormat.Jpeg);
-
+            image.Save(ms, ImageFormat.Jpeg);
             byte[] array = ms.ToArray();
-            path.Dispose();
-
+          //  image.Dispose();
             return Convert.ToBase64String(array);
-
-        } //De pe StackOverflow
+        }     //De pe StackOverflow//
         public Image StringToImage(string imageString)
 
         {
-
-            if (imageString == null)
-
-                throw new ArgumentNullException("imageString");
-
             byte[] array = Convert.FromBase64String(imageString);
-
             Image image = Image.FromStream(new MemoryStream(array));
-
             return image;
-        } //De pe StackOverflow
-       
-        //Linked Label Click Events
-     
+        }               //De pe StackOverflow//
     }
     public class GroupBoxWithRoot : GroupBox
     {
