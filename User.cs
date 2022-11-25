@@ -47,7 +47,7 @@ namespace AdsSolution
                 Regex.IsMatch(email, EmailFormat))
             {
                 var tail = email.Substring(email.IndexOf("@"));
-                return (tail == "@gmail.com" || tail == "@yahoo.com" || tail == "hotmail.com" || tail == "outlook.com");//Pasul 2 (De Implementat JSON) !!!!!!!!
+                return (tail == "@gmail.com" || tail == "@yahoo.com" || tail == "hotmail.com" || tail == "outlook.com");
                 
             }
 
